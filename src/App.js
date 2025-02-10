@@ -4,27 +4,30 @@ import { addTodo, toggleTodo, deleteTodo, setFilter } from "./redux/todoSlice";
 import { FaCheck, FaRegCircle, FaTrashAlt } from "react-icons/fa";
 
 const App = () => {
-  const [input, setInput] = useState("");
-  const todos = useSelector((state) => state.todos.todos);
-  const filter = useSelector((state) => state.todos.filter);
-  const dispatch = useDispatch();
+  const [input, setInput] = useState(""); // Хук для ввода задачи
+  const todos = useSelector((state) => state.todos.todos); // Получаем задачи из состояния
+  const filter = useSelector((state) => state.todos.filter); // Получаем фильтр из состояния
+  const dispatch = useDispatch(); // Хук для диспатчинга действий
 
+  // Обработчик отправки формы
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.trim()) {
-      dispatch(addTodo(input));
-      setInput("");
+      dispatch(addTodo(input)); // Добавляем новую задачу
+      setInput(""); // Очищаем input
     }
   };
 
+  // Обработчик изменения фильтра
   const handleFilterChange = (filter) => {
-    dispatch(setFilter(filter));
+    dispatch(setFilter(filter)); // Устанавливаем новый фильтр
   };
 
+  // Фильтрация задач в зависимости от выбранного фильтра
   const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") return !todo.completed;
-    if (filter === "completed") return todo.completed;
-    return true;
+    if (filter === "active") return !todo.completed; // Активные задачи
+    if (filter === "completed") return todo.completed; // Завершенные задачи
+    return true; // Все задачи
   });
 
   return (
